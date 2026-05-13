@@ -1,5 +1,6 @@
 import { Locator, Page } from "@playwright/test";
-import { BasePage } from "../../fixtures/BasePage"; 
+// @ts-ignore
+import { BasePage } from "../../fixtures/ReusableFixtures/BasePage";
 
 export class LoginPage extends BasePage {
     readonly usernameInput!: Locator;
