@@ -42,8 +42,6 @@ export class LoginPage extends BasePage {
         await this.checkVisible(this.passwordInput);
         await this.checkVisible(this.loginButton);
         await this.checkVisible(this.loginPageLogo);
-
-
     }
 
 
