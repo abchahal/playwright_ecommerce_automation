@@ -143,7 +143,7 @@ Reports are saved in the `playwright-report/` folder.
 
 **Abhishek Chahal**  
 Senior Software Testing Engineer  
-[GitHub](https://github.com/abchahal) | [LinkedIn](https://www.linkedin.com/in/your-profile)
+[GitHub](https://github.com/abchahal) | [LinkedIn](https://www.linkedin.com/in/abhishekchahal323)
 
 ---
 
