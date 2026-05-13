@@ -19,26 +19,16 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: lts/*
-        cache: 'npm'              
+        cache: 'npm'
 
     - name: Install dependencies
       run: npm ci
 
-    - name: Cache Playwright browsers
-      uses: actions/cache@v3
-      id: playwright-cache
-      with:
-        path: ~/.cache/ms-playwright
-        key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-        restore-keys: |
-          playwright-${{ runner.os }}-
-
-    - name: Install Chromium only
-      if: steps.playwright-cache.outputs.cache-hit != 'true'
-      run: npx playwright install chromium --with-deps   
+    - name: Install Playwright browsers
+      run: npx playwright install chromium --with-deps
 
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npx playwright test --workers=1 --reporter=line --timeout=60000
 
     - name: Upload Playwright report
       uses: actions/upload-artifact@v4
