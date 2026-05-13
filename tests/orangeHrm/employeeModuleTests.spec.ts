@@ -14,7 +14,6 @@ test.describe("Employee Module test cases", () => {
         const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId);
         expect(empId).toBe(empDetails);
         await employeePage.verifyErrorToast("Success");
-
     });
 
     test("Adding new employee without last name", async ({ authenticatedPage }) => {
@@ -33,10 +32,8 @@ test.describe("Employee Module test cases", () => {
         const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId);
         expect(empId).toBe(empDetails);
         await employeePage.verifyErrorToast("Success");
-        const result =await employeePage.searchEmployee(empDetails);
+        const result = await employeePage.searchEmployee(empDetails);
         expect(result).toBe(empDetails);
-
-
 
     });
 
