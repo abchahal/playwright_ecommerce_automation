@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from "../../pages/orangeHrm/loginPage";
 import {URLs} from "../../data/orangeHrm/baseUrls";
 import testData from "../../data/orangeHrm/testData.json";
-import { log } from 'node:console';
 const { validuser, invalidUser, emptyusername, emptyPassword} = testData.OrangeHRM;
 
 

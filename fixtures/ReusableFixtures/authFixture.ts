@@ -1,11 +1,11 @@
 import { test as base, Page, BrowserContext } from '@playwright/test';
+import fs from 'fs';
 
 type AuthFixtures = {
   authenticatedPage: Page;
 };
 
 type AuthOptions = {
-  baseURL: string;
   authFile: string;
   loginFn: (page: Page) => Promise<void>;
 };
@@ -14,30 +14,22 @@ export const createAuthFixture = (options: AuthOptions) => {
   return base.extend<AuthFixtures>({
 
     authenticatedPage: async ({ browser }, use) => {
-      let context: BrowserContext;
 
-      try {
-        context = await browser.newContext({
-          storageState: options.authFile,
-        });
-      } catch {
-        context = await browser.newContext();
-      }
-
+      // Always create a new context and perform login
+      const context: BrowserContext = await browser.newContext();
       const page = await context.newPage();
 
-      // try opening dashboard / app entry point
-      await page.goto(options.baseURL);
+      // Always perform login (navigation handled inside loginFn/LoginPage)
+      await options.loginFn(page);
 
-      const isLoggedIn = page.url() !== options.baseURL;
+      // wait for successful login
+      await page.waitForURL(/dashboard/i);
+      await page.waitForLoadState('networkidle');
 
-      if (!isLoggedIn) {
-        await options.loginFn(page);
-
-        await context.storageState({
-          path: options.authFile,
-        });
-      }
+      // Optionally save session for reuse (not used now)
+      // await context.storageState({
+      //   path: options.authFile,
+      // });
 
       await use(page);
       await context.close();

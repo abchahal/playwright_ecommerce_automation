@@ -15,7 +15,16 @@
         "emptyPassword": {
             "username": "Admin",
             "password": ""
+        },
+        "ValidemployeeDetails":{
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "empWithoutlastname":{
+            "firstname": "John",
+            "lastname": ""
         }
+
 
     }
 }
