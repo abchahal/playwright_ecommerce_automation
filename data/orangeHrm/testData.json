@@ -1,0 +1,21 @@
+{
+    "OrangeHRM": {
+        "validuser": {
+            "username": "Admin",
+            "password": "admin123"
+        },
+        "invalidUser": {
+            "username": "Admin",
+            "password": "admin12"
+        },
+        "emptyusername": {
+            "username": "",
+            "password": "admin12"
+        },
+        "emptyPassword": {
+            "username": "Admin",
+            "password": ""
+        }
+
+    }
+}
