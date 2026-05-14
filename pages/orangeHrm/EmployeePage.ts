@@ -21,6 +21,7 @@ export class EmployeePage extends BasePage {
     readonly confirmDelete!: Locator;
     readonly loaderIcon!: Locator;
     readonly searchEmpId!:Locator;
+    readonly firstResultEmpId!: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -33,7 +34,8 @@ export class EmployeePage extends BasePage {
         this.requiredErr = page.getByText('Required', { exact: true });
         this.empListbtn = page.getByRole('link', { name: 'Employee List' });
         this.searchBtn = page.getByRole('button', { name: 'Search' });
-        this.returnedresult = page.locator(".oxd-table-card .oxd-table-row .oxd-table-cell.oxd-padding-cell:nth-child(2) div");
+        this.returnedresult = page.locator(".oxd-table-card");
+        this.firstResultEmpId = page.locator('.oxd-table-body .oxd-table-row').first().locator('.oxd-table-cell').nth(1);
         this.numberOfEmpfound = page.getByText('(1) Record Found', { exact: true });
         this.deleteIcon = page.locator('i.oxd-icon.bi-trash');
         this.confirmDelete = page.locator('i.oxd-icon.bi-trash.oxd-button-icon')
@@ -51,7 +53,8 @@ export class EmployeePage extends BasePage {
         await this.fill(this.empId, empId.toString());
         await this.saveBtn.waitFor({ state: 'visible' });
         await this.click(this.saveBtn);
-        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForURL('**/pim/viewPersonalDetails/empNumber/**', { timeout: 30000 });
+    
         return empId;
     }
 
@@ -62,20 +65,18 @@ export class EmployeePage extends BasePage {
         await this.verifyErrorMessage(this.requiredErr, message);
     }
 
-    async searchEmployee(empId: number) {
+    async searchEmployee(empDetails: number) {
         await this.click(this.empListbtn);
         await this.page.waitForLoadState('networkidle');
-        await this.loaderIcon.waitFor({ state: 'hidden', timeout: 15000 });
-        await this.fill(this.searchEmpId, empId.toString());
+        await this.fill(this.searchEmpId, empDetails.toString());
         await this.click(this.searchBtn);
         await this.page.waitForLoadState('networkidle');
-        await this.loaderIcon.waitFor({ state: 'hidden', timeout: 15000 });
         const cards = await this.page.locator('.oxd-table-card').count();
         console.log(`Cards found after search: ${cards}`);
     }
     async getFirstResult(): Promise<string | null> {
-        await this.returnedresult.first().waitFor({ state: 'visible', timeout: 30000 });
-        return await this.returnedresult.first().textContent();
+        await this.firstResultEmpId.waitFor({ state: 'visible', timeout: 30000 });
+        return (await this.firstResultEmpId.textContent())?.trim() || '';
     }
     async validateSingleResult() {
         await expect(this.returnedresult).toHaveCount(1);

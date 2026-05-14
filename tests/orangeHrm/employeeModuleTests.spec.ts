@@ -30,6 +30,7 @@ test.describe("Employee Module test cases", () => {
         const empId = RandomDataGenerator.generate4DigitEmpId();
         await employeePage.launchUrlAddEmp();
         const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId);
+        console.log(empDetails);
         await employeePage.searchEmployee(empDetails);
         const result = await employeePage.getFirstResult();
         expect(Number(result)).toBe(empId);
