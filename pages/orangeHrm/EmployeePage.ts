@@ -19,6 +19,7 @@ export class EmployeePage extends BasePage {
     readonly numberOfEmpfound!: Locator;
     readonly deleteIcon!: Locator;
     readonly confirmDelete!: Locator;
+    readonly loaderIcon!: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -34,7 +35,7 @@ export class EmployeePage extends BasePage {
         this.numberOfEmpfound = page.getByText('(1) Record Found', { exact: true });
         this.deleteIcon = page.locator('i.oxd-icon.bi-trash');
         this.confirmDelete = page.locator('i.oxd-icon.bi-trash.oxd-button-icon')
-
+        this.loaderIcon = page.locator('.oxd-form-loader');
     };
     async launchUrlAddEmp(): Promise<void> {
         // Remove '/auth/login' from BASEURL to get the root, then append ADD_EMPLOYEE
@@ -64,9 +65,10 @@ export class EmployeePage extends BasePage {
         await this.fill(this.empId, empId.toString());
         await this.click(this.searchBtn);
         await this.page.waitForLoadState('networkidle');
+        await this.loaderIcon.waitFor({ state: 'hidden', timeout: 15000 });
     }
-    async getFirstResult() {
-        await this.returnedresult.first().waitFor({ state: 'visible' });
+    async getFirstResult(): Promise<string | null> {
+        await this.returnedresult.first().waitFor({ state: 'visible',timeout: 30000 });
         return await this.returnedresult.first().textContent();
     }
     async validateSingleResult() {
