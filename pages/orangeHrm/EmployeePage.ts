@@ -31,7 +31,7 @@ export class EmployeePage extends BasePage {
         this.requiredErr = page.getByText('Required', { exact: true });
         this.empListbtn = page.getByRole('link', { name: 'Employee List' });
         this.searchBtn = page.getByRole('button', { name: 'Search' });
-        this.returnedresult = page.locator("div[class='oxd-table-card'] div:nth-child(2) div:nth-child(1)");
+        this.returnedresult = page.locator(".oxd-table-card .oxd-table-row .oxd-table-cell.oxd-padding-cell:nth-child(2) div");
         this.numberOfEmpfound = page.getByText('(1) Record Found', { exact: true });
         this.deleteIcon = page.locator('i.oxd-icon.bi-trash');
         this.confirmDelete = page.locator('i.oxd-icon.bi-trash.oxd-button-icon')
