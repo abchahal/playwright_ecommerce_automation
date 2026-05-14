@@ -20,12 +20,14 @@ export class EmployeePage extends BasePage {
     readonly deleteIcon!: Locator;
     readonly confirmDelete!: Locator;
     readonly loaderIcon!: Locator;
+    readonly searchEmpId!:Locator;
 
     constructor(page: Page) {
         super(page);
         this.firstname = page.getByRole('textbox', { name: 'First Name' });
         this.lastname = page.getByRole('textbox', { name: 'Last Name' });
         this.empId = page.locator("//div[@class='oxd-input-group oxd-input-field-bottom-space']//div//input[@class='oxd-input oxd-input--active']");
+        this.searchEmpId = page.locator('.oxd-input-group.oxd-input-field-bottom-space input.oxd-input');
         this.toast = page.locator('.oxd-toast');
         this.saveBtn = page.getByRole('button', { name: 'Save' });
         this.requiredErr = page.getByText('Required', { exact: true });
@@ -64,7 +66,7 @@ export class EmployeePage extends BasePage {
         await this.click(this.empListbtn);
         await this.page.waitForLoadState('networkidle');
         await this.loaderIcon.waitFor({ state: 'hidden', timeout: 15000 });
-        await this.fill(this.empId, empId.toString());
+        await this.fill(this.searchEmpId, empId.toString());
         await this.click(this.searchBtn);
         await this.page.waitForLoadState('networkidle');
         await this.loaderIcon.waitFor({ state: 'hidden', timeout: 15000 });
