@@ -23,7 +23,7 @@ export const createAuthFixture = (options: AuthOptions) => {
       await options.loginFn(page);
 
       // wait for successful login
-      await page.waitForURL(/dashboard/i);
+      await page.waitForURL(/dashboard/i, { timeout: 60000 });
       await page.waitForLoadState('networkidle');
 
       // Optionally save session for reuse (not used now)

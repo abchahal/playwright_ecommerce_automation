@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 import { URLs } from "../../data/orangeHrm/baseUrls";
 
 // @ts-ignore
@@ -56,6 +56,8 @@ export class EmployeePage extends BasePage {
         await this.click(this.empListbtn);
         await this.fill(this.empId,empId.toString());
         await this.click(this.searchBtn);
+        await this.returnedresult.first().waitFor({state: 'visible'});
+        await expect(this.returnedresult).toHaveCount(1);
         const result= await this.getText(this.returnedresult);
         return Number(result);
 
