@@ -12,10 +12,13 @@ export class EmployeePage extends BasePage {
     readonly toast!: Locator;
     readonly saveBtn !: Locator;
     readonly requiredErr !: Locator;
-    readonly empListbtn! : Locator;
+    readonly empListbtn!: Locator;
     readonly searchBtn !: Locator
     readonly returnedresult !: Locator;
     result!: number;
+    readonly numberOfEmpfound!: Locator;
+    readonly deleteIcon!: Locator;
+    readonly confirmDelete!: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -27,7 +30,10 @@ export class EmployeePage extends BasePage {
         this.requiredErr = page.getByText('Required', { exact: true });
         this.empListbtn = page.getByRole('link', { name: 'Employee List' });
         this.searchBtn = page.getByRole('button', { name: 'Search' });
-        this.returnedresult =page.locator("div[class='oxd-table-card'] div:nth-child(2) div:nth-child(1)");
+        this.returnedresult = page.locator("div[class='oxd-table-card'] div:nth-child(2) div:nth-child(1)");
+        this.numberOfEmpfound = page.getByText('(1) Record Found', { exact: true });
+        this.deleteIcon = page.locator('i.oxd-icon.bi-trash');
+        this.confirmDelete = page.locator('i.oxd-icon.bi-trash.oxd-button-icon')
 
     };
     async launchUrlAddEmp(): Promise<void> {
@@ -42,24 +48,38 @@ export class EmployeePage extends BasePage {
         await this.fill(this.empId, empId.toString());
         await this.saveBtn.waitFor({ state: 'visible' });
         await this.click(this.saveBtn);
+        await this.page.waitForLoadState('networkidle');
         return empId;
     }
 
-    async verifyErrorToast(message: string) {
+    async verifyToast(message: string) {
         await this.verifyToastMessage(this.toast, message);
     }
     async verifyRequiredError(message: string) {
         await this.verifyErrorMessage(this.requiredErr, message);
     }
 
-    async searchEmployee(empId: number){
+    async searchEmployee(empId: number) {
         await this.click(this.empListbtn);
-        await this.fill(this.empId,empId.toString());
+        await this.fill(this.empId, empId.toString());
         await this.click(this.searchBtn);
-        await this.returnedresult.first().waitFor({state: 'visible'});
+        await this.page.waitForLoadState('networkidle');
+    }
+    async getFirstResult() {
+        await this.returnedresult.first().waitFor({ state: 'visible' });
+        return await this.returnedresult.first().textContent();
+    }
+    async validateSingleResult() {
         await expect(this.returnedresult).toHaveCount(1);
-        const result= await this.getText(this.returnedresult);
-        return Number(result);
+    }
+
+    async validateNoResult() {
+        await expect(this.returnedresult).toHaveCount(0);
+    }
+
+    async deleteEmployee(){
+        await this.click(this.deleteIcon);
+        await this.click(this.confirmDelete);
 
     }
 

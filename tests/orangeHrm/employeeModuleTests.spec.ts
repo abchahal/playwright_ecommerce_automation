@@ -2,7 +2,7 @@ import { test, expect } from '../../fixtures/OrangeHRM/orangeHrmFixture';
 import { EmployeePage } from '../../pages/orangeHrm/EmployeePage';
 import { RandomDataGenerator } from '../../utils/randomdataGenerator';
 import testData from "../../data/orangeHrm/testData.json";
-import { URLs } from "../../data/orangeHrm/baseUrls";
+
 const { ValidemployeeDetails, empWithoutlastname } = testData.OrangeHRM;
 
 test.describe("Employee Module test cases", () => {
@@ -13,7 +13,7 @@ test.describe("Employee Module test cases", () => {
         await employeePage.launchUrlAddEmp();
         const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId);
         expect(empId).toBe(empDetails);
-        await employeePage.verifyErrorToast("Success");
+        await employeePage.verifyToast("Success");
     });
 
     test("Adding new employee without last name", async ({ authenticatedPage }) => {
@@ -30,13 +30,31 @@ test.describe("Employee Module test cases", () => {
         const empId = RandomDataGenerator.generate4DigitEmpId();
         await employeePage.launchUrlAddEmp();
         const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId);
-        expect(empId).toBe(empDetails);
-        await employeePage.verifyErrorToast("Success");
-        const result = await employeePage.searchEmployee(empDetails);
-        expect(result).toBe(empDetails);
+        await employeePage.searchEmployee(empDetails);
+        const result = await employeePage.getFirstResult();
+        expect(Number(result)).toBe(empId);
+        await employeePage.validateSingleResult();
 
     });
 
+    test("Search employee with non-existent empID", async ({ authenticatedPage }) => {
+        const employeePage = new EmployeePage(authenticatedPage);
+        const empDetails = RandomDataGenerator.generate4DigitEmpId();
+        await employeePage.launchUrlAddEmp();
+        await employeePage.searchEmployee(empDetails);
+        await employeePage.validateNoResult();
+    });
+
+     test("Delete an existing employee", async ({ authenticatedPage }) => {
+        const employeePage = new EmployeePage(authenticatedPage);
+        const empId = RandomDataGenerator.generate4DigitEmpId();
+        await employeePage.launchUrlAddEmp();
+        const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId);
+        await employeePage.verifyToast("Success");
+        await employeePage.searchEmployee(empDetails);
+        await employeePage.deleteEmployee();
+         await employeePage.verifyToast("Success");
+    });
 
 })
 

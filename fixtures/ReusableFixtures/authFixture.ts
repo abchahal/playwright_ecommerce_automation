@@ -19,17 +19,23 @@ export const createAuthFixture = (options: AuthOptions) => {
       const context: BrowserContext = await browser.newContext();
       const page = await context.newPage();
 
-      // Always perform login (navigation handled inside loginFn/LoginPage)
-      await options.loginFn(page);
+      try {
+        // Wait for login fields to be visible before login
+        // await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', { timeout: 60000 });
+        // await page.waitForSelector('input[placeholder="Username"]', { timeout: 20000 });
+        // await page.waitForSelector('input[placeholder="Password"]', { timeout: 20000 });
 
-      // wait for successful login
-      await page.waitForURL(/dashboard/i, { timeout: 60000 });
-      await page.waitForLoadState('networkidle');
+        // Always perform login (navigation handled inside loginFn/LoginPage)
+        await options.loginFn(page);
 
-      // Optionally save session for reuse (not used now)
-      // await context.storageState({
-      //   path: options.authFile,
-      // });
+        // Optionally wait for a post-login URL or state in the app-specific fixture or test
+        await page.waitForLoadState('networkidle');
+      } catch (e) {
+        // Take a screenshot for debugging
+        await page.screenshot({ path: 'authFixture-login-failure.png', fullPage: true });
+        console.error('Login fixture failed:', e);
+        throw e;
+      }
 
       await use(page);
       await context.close();

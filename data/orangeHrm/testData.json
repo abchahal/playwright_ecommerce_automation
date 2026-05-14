@@ -5,7 +5,7 @@
             "password": "admin123"
         },
         "invalidUser": {
-            "username": "Admin",
+            "username": "abhhi9942",
             "password": "admin12"
         },
         "emptyusername": {
@@ -23,6 +23,21 @@
         "empWithoutlastname":{
             "firstname": "John",
             "lastname": ""
+        },
+        "ValidleaveDetailsAuto":{
+            "fromDate": null,
+            "toDate":null,
+            "comment": null
+        },
+        "ValidleaveDetailsManual":{
+            "fromDate": "2026-20-05",
+            "toDate":"2026-21-05",
+            "comment": null
+        },
+        "leaveWithPastTodate":{
+             "fromDate": null,
+            "toDate":"2026-01-01",
+            "comment": null        
         }
 
 

@@ -5,6 +5,9 @@ export const URLs =
         LOGIN: '/auth/login',
         DASHBOARD: '/dashboard',
         EMPLOYEE_LIST: '/pim/viewEmployeeList',
-        ADD_EMPLOYEE: "/pim/addEmployee"
+        ADD_EMPLOYEE: "/pim/addEmployee",
+        APPLY_LEAVES: "/leave/applyLeave",
+        MY_LEAVES: "/leave/viewMyLeaveList",
+
     }
 }
