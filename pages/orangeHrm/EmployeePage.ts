@@ -62,13 +62,17 @@ export class EmployeePage extends BasePage {
 
     async searchEmployee(empId: number) {
         await this.click(this.empListbtn);
+        await this.page.waitForLoadState('networkidle');
+        await this.loaderIcon.waitFor({ state: 'hidden', timeout: 15000 });
         await this.fill(this.empId, empId.toString());
         await this.click(this.searchBtn);
         await this.page.waitForLoadState('networkidle');
         await this.loaderIcon.waitFor({ state: 'hidden', timeout: 15000 });
+        const cards = await this.page.locator('.oxd-table-card').count();
+        console.log(`Cards found after search: ${cards}`);
     }
     async getFirstResult(): Promise<string | null> {
-        await this.returnedresult.first().waitFor({ state: 'visible',timeout: 30000 });
+        await this.returnedresult.first().waitFor({ state: 'visible', timeout: 30000 });
         return await this.returnedresult.first().textContent();
     }
     async validateSingleResult() {
@@ -79,7 +83,7 @@ export class EmployeePage extends BasePage {
         await expect(this.returnedresult).toHaveCount(0);
     }
 
-    async deleteEmployee(){
+    async deleteEmployee() {
         await this.click(this.deleteIcon);
         await this.click(this.confirmDelete);
 
