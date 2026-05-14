@@ -20,8 +20,9 @@ export class EmployeePage extends BasePage {
     readonly deleteIcon!: Locator;
     readonly confirmDelete!: Locator;
     readonly loaderIcon!: Locator;
-    readonly searchEmpId!:Locator;
+    readonly searchEmpId!: Locator;
     readonly firstResultEmpId!: Locator;
+    
 
     constructor(page: Page) {
         super(page);
@@ -47,14 +48,20 @@ export class EmployeePage extends BasePage {
         await this.navigateTo(base + URLs.OrangeHRM.ADD_EMPLOYEE);
     }
 
-    async addEmpDetailsAndSave(firstname: string, lastname: string, empId: number) {
+    async addEmpDetailsAndSave(firstname: string, lastname: string, empId: number,waitForSuccess: boolean = false) {
         await this.fill(this.firstname, firstname);
         await this.fill(this.lastname, lastname);
         await this.fill(this.empId, empId.toString());
         await this.saveBtn.waitFor({ state: 'visible' });
         await this.click(this.saveBtn);
-        await this.page.waitForURL('**/pim/viewPersonalDetails/empNumber/**', { timeout: 30000 });
-    
+        if (waitForSuccess) {
+            await this.toast.waitFor({
+                state: 'visible',
+                timeout: 10000
+            });
+        }
+
+        await this.page.waitForLoadState('networkidle');
         return empId;
     }
 
@@ -71,8 +78,6 @@ export class EmployeePage extends BasePage {
         await this.fill(this.searchEmpId, empDetails.toString());
         await this.click(this.searchBtn);
         await this.page.waitForLoadState('networkidle');
-        const cards = await this.page.locator('.oxd-table-card').count();
-        console.log(`Cards found after search: ${cards}`);
     }
     async getFirstResult(): Promise<string | null> {
         await this.firstResultEmpId.waitFor({ state: 'visible', timeout: 30000 });

@@ -11,7 +11,7 @@ test.describe("Employee Module test cases", () => {
         const employeePage = new EmployeePage(authenticatedPage);
         const empId = RandomDataGenerator.generate4DigitEmpId();
         await employeePage.launchUrlAddEmp();
-        const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId);
+        const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId,true);
         expect(empId).toBe(empDetails);
         await employeePage.verifyToast("Success");
     });
@@ -29,7 +29,7 @@ test.describe("Employee Module test cases", () => {
         const employeePage = new EmployeePage(authenticatedPage);
         const empId = RandomDataGenerator.generate4DigitEmpId();
         await employeePage.launchUrlAddEmp();
-        const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId);
+        const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId,true);
         console.log(empDetails);
         await employeePage.searchEmployee(empDetails);
         const result = await employeePage.getFirstResult();
@@ -50,7 +50,7 @@ test.describe("Employee Module test cases", () => {
         const employeePage = new EmployeePage(authenticatedPage);
         const empId = RandomDataGenerator.generate4DigitEmpId();
         await employeePage.launchUrlAddEmp();
-        const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId);
+        const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId,true);
         await employeePage.verifyToast("Success");
         await employeePage.searchEmployee(empDetails);
         await employeePage.deleteEmployee();
