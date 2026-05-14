@@ -11,6 +11,9 @@ export const test = createAuthFixture({
     const loginPage = new LoginPage(page);
     await loginPage.launchUrl();
     await loginPage.login(validuser.username, validuser.password);
+    // Wait for dashboard URL and a unique dashboard element after login
+    await page.waitForURL(/dashboard/i, { timeout: 90000 });
+    await page.waitForSelector('.oxd-topbar-header', { timeout: 30000 });
   },
 });
 

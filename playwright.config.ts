@@ -14,8 +14,11 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
-  timeout: 60 * 1000,
-  /* Run tests in files in parallel */
+  timeout: process.env.CI ? 90000 : 60000,
+   expect: {
+        timeout: process.env.CI ? 15000 : 5000 // longer expect timeout in CI
+    },
+  
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
@@ -31,7 +34,7 @@ export default defineConfig({
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
     headless: process.env.HEADLESS !== 'false',  // headless unless explicitly set to false
   },
 
