@@ -56,6 +56,5 @@ test.describe("Employee Module test cases", () => {
         await employeePage.deleteEmployee();
          await employeePage.verifyToast("Success");
     });
-
 })
 
