@@ -3,7 +3,7 @@ import { EmployeePage } from '../../pages/orangeHrm/EmployeePage';
 import { RandomDataGenerator } from '../../utils/randomdataGenerator';
 import testData from "../../data/orangeHrm/testData.json";
 
-const { ValidemployeeDetails, empWithoutlastname } = testData.OrangeHRM;
+const { ValidemployeeDetails, empWithoutlastname,ContactDetails } = testData.OrangeHRM;
 
 test.describe("Employee Module test cases", () => {
 
@@ -30,7 +30,6 @@ test.describe("Employee Module test cases", () => {
         const empId = RandomDataGenerator.generate4DigitEmpId();
         await employeePage.launchUrlAddEmp();
         const empDetails = await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId,true);
-        console.log(empDetails);
         await employeePage.searchEmployee(empDetails);
         const result = await employeePage.getFirstResult();
         expect(Number(result)).toBe(empId);
@@ -56,5 +55,15 @@ test.describe("Employee Module test cases", () => {
         await employeePage.deleteEmployee();
          await employeePage.verifyToast("Success");
     });
+
+    test("Update employee contact details", async ({ authenticatedPage }) => {
+        const employeePage = new EmployeePage(authenticatedPage);
+        const empId = RandomDataGenerator.generate4DigitEmpId();
+        await employeePage.launchUrlAddEmp();
+        await employeePage.addEmpDetailsAndSave(ValidemployeeDetails.firstname, ValidemployeeDetails.lastname, empId,true);
+        await employeePage.updateEmpContact(ContactDetails.street1,ContactDetails.city,ContactDetails.country);
+    });
+
+
 })
 
