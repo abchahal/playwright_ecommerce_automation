@@ -38,6 +38,11 @@
              "fromDate": null,
             "toDate":"2026-01-01",
             "comment": null        
+        },
+        "ContactDetails":{
+            "street1": "Robert Street",
+            "city":"Toronto",
+            "country": "Canada"
         }
 
 
