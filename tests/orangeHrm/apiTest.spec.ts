@@ -2,6 +2,7 @@ import { test, expect, APIRequestContext } from '@playwright/test';
 import { csrfSessionLogin } from '../../utils/auth/csrfAuth';
 import { getRequest, postRequest, disposeContext,createApiContext } from '../../utils/apiUtils';
 import { OrangeHrmConfig, AuthData, EmployeeData } from '../../data/orangeHrm/apiTestData';
+import { OrangeHrmApi } from '../../utils/apiRequests';
 let apiContext: APIRequestContext;
 
 test.describe('OrangeHRM Authentication Tests', () => {
@@ -49,14 +50,15 @@ test.describe('Employee API Tests', () => {
     });
 
     test('@API Get employee list', async () => {
-        const response = await getRequest(apiContext, OrangeHrmConfig.endpoints.employees);
-        expect(response.status).toBe(200);
+        const api = new OrangeHrmApi(apiContext);
+        const response = await api.getEmployeeAPI()
     });
 
     test('@API Create employee', async () => {
 
-        const response = await postRequest(apiContext, OrangeHrmConfig.endpoints.employees, EmployeeData.valid);
-        expect(response.status).toBe(200);
+        const api = new OrangeHrmApi(apiContext);
+        const empId = await api.createEmployeeAndGetId(EmployeeData.valid);
+        console.log("Employee created with empNumber: "+empId);
     });
 
     test('@API Create employee with missing last name', async () => {
