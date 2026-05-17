@@ -91,13 +91,14 @@ export async function putRequest(apiContext: APIRequestContext, endpoint: string
 }
 
 // ─── DELETE ───────────────────────────────────────────────────────
-export async function deleteRequest(apiContext: APIRequestContext, endpoint: string, token?: string) {
+export async function deleteRequest(apiContext: APIRequestContext, endpoint: string,data?: object, token?: string) {
     logRequest('DELETE', endpoint, undefined, token);
     const response = await apiContext.delete(endpoint, {
         headers: {
             'Content-Type': 'application/json',
             ...(token && { 'Authorization': `Bearer ${token}` })
-        }
+        },
+        data
     });
     const result = await parseResponse(response);
     logResponse(result.status, result.body);

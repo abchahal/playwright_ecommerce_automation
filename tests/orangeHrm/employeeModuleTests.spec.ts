@@ -53,7 +53,7 @@ test.describe("Employee Module test cases", () => {
         await employeePage.verifyToast("Success");
         await employeePage.searchEmployee(empDetails);
         await employeePage.deleteEmployee();
-         await employeePage.verifyToast("Success");
+        await employeePage.verifyToast("Success");
     });
 
     test("Update employee contact details", async ({ authenticatedPage }) => {

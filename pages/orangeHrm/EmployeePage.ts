@@ -24,6 +24,7 @@ export class EmployeePage extends BasePage {
     readonly countryDropdown!: Locator;
     readonly countryOptions!: Locator;
     readonly countryList!: Locator;
+    readonly noRecordFound!: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -46,6 +47,7 @@ export class EmployeePage extends BasePage {
         this.countryDropdown = page.locator('.oxd-input-group').filter({ hasText: 'Country' }).locator('.oxd-select-text-input');
         this.countryList = page.locator('[role="listbox"]')
         this.countryOptions = page.locator('[role="listbox"]').getByRole('option');
+        this.noRecordFound = page.getByText('No Records Found');
     }
 
 
@@ -75,9 +77,14 @@ export class EmployeePage extends BasePage {
     async updateEmpContact(street1: string, city: string, country: string) {
         await this.contactBtn.waitFor({ state: 'visible' });
         await this.click(this.contactBtn);
-        await this.street1.waitFor({ state: 'visible' });
+        await expect(this.street1).toBeEditable();
+        await this.click(this.street1);
         await this.fill(this.street1, street1);
+        await this.street1.blur();
+        await expect(this.city).toBeEditable();
+        await this.click(this.city);
         await this.fill(this.city, city);
+        await this.city.blur();
         await this.click(this.countryDropdown);
         await this.countryList.waitFor({ state: 'visible' });
         await this.countryOptions.allTextContents();
@@ -96,7 +103,7 @@ export class EmployeePage extends BasePage {
     async searchEmployee(empDetails: number) {
         await this.click(this.empListbtn);
         await this.page.waitForLoadState('networkidle');
-        await this.searchEmpId.waitFor({state:'visible'});
+        await this.searchEmpId.waitFor({ state: 'visible' });
         await this.fill(this.searchEmpId, empDetails.toString());
         await this.click(this.searchBtn);
         await this.page.waitForLoadState('networkidle');
@@ -117,6 +124,21 @@ export class EmployeePage extends BasePage {
         await this.click(this.deleteIcon);
         await this.click(this.confirmDelete);
 
+    }
+
+    async validateEmpCreatedOnUI(empNumber: string) {
+        const base = URLs.OrangeHRM.BASEURL.replace('/auth/login', '');
+        await this.navigateTo(base + URLs.OrangeHRM.EMP_INFO_SCREEN + empNumber);
+        const currentUrl = this.page.url();
+        const returnedempNumber = currentUrl.split("empNumber/")[1];
+        return returnedempNumber;
+    }
+
+    async validateEmpDeleted(empNumber: string){
+        const base = URLs.OrangeHRM.BASEURL.replace('/auth/login', '');
+        await this.navigateTo(base + URLs.OrangeHRM.EMP_INFO_SCREEN + empNumber);
+        await this.checkVisible(this.noRecordFound);
+        console.log("Employee Not Found and is deleted")
     }
 
 

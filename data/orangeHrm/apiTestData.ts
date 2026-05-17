@@ -3,7 +3,8 @@ export const OrangeHrmConfig = {
     endpoints: {
         loginPage:  '/web/index.php/auth/login',        // GET - to extract CSRF token
         validate:   '/web/index.php/auth/validate',     // POST - session login
-        employees:  '/web/index.php/api/v2/pim/employees'
+        employees:  '/web/index.php/api/v2/pim/employees',
+        contactDetails: (empNumber: string) => `/web/index.php/api/v2/pim/employee/${empNumber}/contact-details`,
     }
 };
 
