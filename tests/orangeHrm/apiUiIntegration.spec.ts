@@ -1,5 +1,5 @@
 import { test, expect} from '../../fixtures/OrangeHRM/orangeHrmFixture';
-import { EmployeePage } from '../../pages/orangeHrm/EmployeePage';
+import { EmployeePage } from '../../pages/orangeHrm/employee-page';
 import { RandomDataGenerator } from '../../utils/randomdataGenerator';
 import testData from "../../data/orangeHrm/testData.json";
 import { csrfSessionLogin } from '../../utils/auth/csrfAuth';

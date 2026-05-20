@@ -1,7 +1,7 @@
 import { test, expect } from '../../fixtures/OrangeHRM/orangeHrmFixture';
 import { RandomDataGenerator } from '../../utils/randomdataGenerator';
 import testData from "../../data/orangeHrm/testData.json";
-import { LeavePage } from '../../pages/orangeHrm/LeavePage';
+import { LeavePage } from '../../pages/orangeHrm/leave-page';
 const { ValidleaveDetailsAuto,leaveWithPastTodate,ValidleaveDetailsManual} = testData.OrangeHRM;
 
 test.describe("Leave Module Test cases", ()=>{
