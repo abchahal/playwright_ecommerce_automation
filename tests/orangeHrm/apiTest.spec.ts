@@ -1,7 +1,7 @@
 import { test, expect, APIRequestContext } from '@playwright/test';
 import { csrfSessionLogin } from '../../utils/auth/csrfAuth';
 import { getRequest, postRequest, disposeContext,createApiContext } from '../../utils/apiUtils';
-import { OrangeHrmConfig, AuthData, EmployeeData } from '../../data/orangeHrm/apiTestData';
+import { OrangeHrmConfig, AuthData, EmployeeData } from '../../data/orangeHrm/api-test-data';
 import { OrangeHrmApi } from '../../utils/apiRequests';
 let apiContext: APIRequestContext;
 
