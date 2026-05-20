@@ -1,9 +1,9 @@
 import { test, expect} from '../../fixtures/OrangeHRM/orangeHrmFixture';
 import { EmployeePage } from '../../pages/orangeHrm/employee-page';
 import { RandomDataGenerator } from '../../utils/randomdataGenerator';
-import testData from "../../data/orangeHrm/test-data.json";
+import testData from "../../data/orangeHrm/testData.json";
 import { csrfSessionLogin } from '../../utils/auth/csrfAuth';
-import { OrangeHrmConfig, AuthData, EmployeeData } from '../../data/orangeHrm/api-test-data';
+import { OrangeHrmConfig, AuthData, EmployeeData } from '../../data/orangeHrm/apiTestData';
 import { OrangeHrmApi } from '../../utils/apiRequests';
 const { ValidemployeeDetails, empWithoutlastname,ContactDetails } = testData.OrangeHRM; 
 

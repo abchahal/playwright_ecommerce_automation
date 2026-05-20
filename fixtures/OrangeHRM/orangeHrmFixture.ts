@@ -1,6 +1,6 @@
 import { createAuthFixture } from '../ReusableFixtures/authFixture';
 import { LoginPage } from '../../pages/orangeHrm/login-page';
-import testData from '../../data/orangeHrm/test-data.json';
+import testData from '../../data/orangeHrm/testData.json';
 
 const { validuser } = testData.OrangeHRM;
 

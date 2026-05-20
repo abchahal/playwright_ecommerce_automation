@@ -1,6 +1,6 @@
 import { APIRequestContext, expect } from '@playwright/test';
 import { getRequest, postRequest, disposeContext,createApiContext, deleteRequest } from '../utils/apiUtils';
-import { OrangeHrmConfig, EmployeeData } from '../data/orangeHrm/api-test-data';
+import { OrangeHrmConfig, EmployeeData } from '../data/orangeHrm/apiTestData';
 
 export class OrangeHrmApi {
 

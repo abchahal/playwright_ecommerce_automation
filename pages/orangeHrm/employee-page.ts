@@ -1,5 +1,5 @@
 import { Locator, Page, expect } from "@playwright/test";
-import { URLs } from "../../data/orangeHrm/baseurls";
+import { URLs } from "../../data/orangeHrm/baseUrls";
 
 // @ts-ignore
 import { BasePage } from "../../fixtures/ReusableFixtures/BasePage";
