@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/orangeHRM/orangeHrmFixture';
+import { test, expect } from '../../fixtures/OrangeHRM/orangeHrmFixture';
 import { RandomDataGenerator } from '../../utils/randomdataGenerator';
 import testData from "../../data/orangeHrm/test-data.json";
 import { LeavePage } from '../../pages/orangeHrm/leave-page';
